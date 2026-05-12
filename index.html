@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SERVPRONET</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/qkw5jol.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14110f;
+    --ink-2: #3a342e;
+    --ink-3: #6b6359;
+    --muted: #a39c91;
+    --paper: #ffffff;
+    --canvas: #ffffff;
+    --soft: #f8f7fb;
+    --bg-card: #fafafa;
+    --line: #ebe7e0;
+    --line-soft: #f3f0ea;
+    --accent: #e8632a;
+    --accent-deep: #c44a14;
+    --accent-soft: #fde4d4;
+    --lime: #b8e845;
+    --lime-deep: #95c726;
+    --orange: #e8632a;
+    --orange-soft: #fde4d4;
+    --moss: #4a6b2a;
+    --moss-soft: #e6ecd8;
+    --plum: #2a1418;
+
+    --grad-1: #d8d4ed;
+    --grad-2: #f0e4d9;
+    --grad-3: #c9d6e8;
+    --grad-4: #efeaf3;
+
+    --serif: 'Fraunces', Georgia, serif;
+    --graphy: 'graphy', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--grad-1);
+    color: var(--ink);
+    font-family: var(--graphy);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    min-height: 100vh;
+    padding: 32px;
+    background:
+      radial-gradient(circle at 0% 0%, var(--grad-1) 0%, transparent 50%),
+      radial-gradient(circle at 100% 30%, var(--grad-2) 0%, transparent 55%),
+      radial-gradient(circle at 0% 80%, var(--grad-3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 100%, var(--grad-4) 0%, transparent 60%),
+      linear-gradient(135deg, #e4dff5 0%, #f5e8d8 100%);
+  }
+
+  /* === MAIN ROUNDED CONTAINER === */
+  .canvas {
+    max-width: 1440px;
+    margin: 0 auto;
+    background: var(--canvas);
+    border-radius: 32px;
+    padding: 32px 40px 40px;
+    min-height: calc(100vh - 64px);
+    position: relative;
+    box-shadow:
+      0 2px 8px rgba(0,0,0,0.04),
+      0 20px 60px rgba(50, 30, 80, 0.08);
+  }
+
+  /* === TOP BAR INSIDE CANVAS === */
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  .top-bar-left { display: flex; align-items: center; gap: 12px; }
+  .product-pill {
+    background: var(--soft);
+    padding: 8px 14px 8px 8px;
+    border-radius: 999px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--graphy); font-size: 13px; font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .product-pill .mark {
+    width: 26px; height: 26px;
+    background: var(--ink);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--lime);
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+  .product-pill .caret { color: var(--muted); font-size: 10px; }
+
+  .top-bar-center {
+    display: flex; gap: 24px;
+  }
+  .top-link {
+    font-family: var(--graphy); font-size: 14px; font-weight: 500;
+    color: var(--ink-2); text-decoration: none;
+    padding: 8px 4px;
+    transition: color 0.15s ease;
+  }
+  .top-link:hover { color: var(--ink); }
+  .top-link.active { color: var(--ink); font-weight: 700; }
+
+  .top-bar-right { display: flex; align-items: center; gap: 10px; }
+  .top-action {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--soft);
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: var(--ink-2);
+    position: relative;
+  }
+  .top-action:hover { background: #f0eef5; }
+  .top-action svg { width: 16px; height: 16px; }
+  .top-action .dot-ind { position: absolute; top: 9px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+  .upgrade-btn {
+    background: var(--ink); color: var(--paper);
+    padding: 11px 22px;
+    border-radius: 999px;
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--graphy); font-size: 13px; font-weight: 600;
+    cursor: pointer;
+  }
+  .upgrade-btn .star { color: var(--lime); }
+
+  /* === LEFT FLOATING TOOLBAR === */
+  .float-toolbar {
+    position: absolute;
+    left: 32px;
+    top: 130px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+  }
+  .float-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 2px 8px rgba(50,30,80,0.06), 0 1px 3px rgba(50,30,80,0.04);
+    display: grid; place-items: center;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .float-icon:hover { transform: translateY(-1px); color: var(--ink); }
+  .float-icon.dark {
+    background: var(--ink); color: var(--paper);
+  }
+  .float-icon svg { width: 18px; height: 18px; }
+  .float-icon-divider { height: 1px; background: rgba(0,0,0,0.08); margin: 4px 8px; }
+
+  /* === HERO GREETING === */
+  .hero {
+    padding: 0 80px 0 120px;
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: var(--graphy); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+  .hero-greeting {
+    font-family: var(--graphy); font-size: 68px; font-weight: 700;
+    letter-spacing: -0.035em; line-height: 1; color: var(--ink);
+  }
+  .hero-greeting .accent {
+    color: var(--accent);
+  }
+  .hero-greeting .light {
+    font-weight: 300; color: var(--ink-3);
+  }
+  .hero-meta {
+    margin-top: 24px;
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--graphy); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  }
+  .hero-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: 0.5; }
+
+  /* Assistant card on right of greeting */
+  .assistant-card {
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 16px rgba(50,30,80,0.06), 0 1px 3px rgba(50,30,80,0.04);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 320px;
+    position: relative;
+  }
+  .assistant-bubble {
+    position: absolute;
+    top: -16px; right: 24px;
+    background: var(--paper);
+    border-radius: 16px 16px 4px 16px;
+    padding: 10px 14px;
+    font-family: var(--graphy); font-size: 12px; font-weight: 500;
+    color: var(--ink);
+    box-shadow: 0 4px 12px rgba(50,30,80,0.08);
+  }
+  .assistant-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--lime) 0%, var(--lime-deep) 100%);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    color: var(--ink);
+    font-size: 28px;
+  }
+  .assistant-text {
+    font-family: var(--graphy); font-size: 14px; font-weight: 600;
+    color: var(--ink); line-height: 1.3;
+  }
+  .assistant-text small {
+    display: block; font-size: 11px; font-weight: 500;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* === SEARCH (prominent, floating style) === */
+  .search-block {
+    padding: 0 80px 0 120px;
+    margin-bottom: 64px;
+  }
+  .search-pill {
+    background: var(--paper);
+    border-radius: 100px;
+    padding: 8px 8px 8px 28px;
+    display: flex; align-items: center; gap: 20px;
+    box-shadow: 0 4px 24px rgba(50,30,80,0.08), 0 1px 4px rgba(50,30,80,0.04);
+    transition: box-shadow 0.2s ease;
+  }
+  .search-pill:focus-within {
+    box-shadow: 0 4px 28px rgba(232,99,42,0.15), 0 1px 4px rgba(50,30,80,0.06);
+  }
+  .search-pill svg.search-icon { width: 20px; height: 20px; color: var(--ink-3); flex-shrink: 0; }
+  .search-pill input {
+    flex: 1; border: none; outline: none; background: transparent;
+    font-family: var(--graphy); font-size: 16px; font-weight: 400;
+    color: var(--ink); padding: 14px 0;
+  }
+  .search-pill input::placeholder { color: var(--muted); }
+  .search-pill .search-shortcuts {
+    display: flex; gap: 6px;
+  }
+  .search-chip {
+    padding: 10px 16px;
+    background: var(--soft);
+    border-radius: 100px;
+    font-family: var(--graphy); font-size: 12px; font-weight: 500;
+    color: var(--ink-2);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .search-chip:hover { background: #f0eef5; }
+  .search-chip svg { width: 12px; height: 12px; }
+  .search-mic {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--soft);
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: var(--ink-2);
+  }
+  .search-mic svg { width: 16px; height: 16px; }
+  .search-go {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: var(--paper);
+  }
+  .search-go svg { width: 16px; height: 16px; }
+
+  /* === SECTION HEADERS === */
+  .section-header {
+    padding: 0 80px 0 120px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .section-header-left { display: flex; align-items: baseline; gap: 18px; }
+  .section-num {
+    font-family: var(--graphy); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .section-title {
+    font-family: var(--graphy); font-size: 32px; font-weight: 700;
+    letter-spacing: -0.03em; color: var(--ink);
+  }
+  .section-title em {
+    font-family: var(--serif); font-style: italic; font-weight: 300;
+    color: var(--accent);
+  }
+  .section-meta {
+    font-family: var(--graphy); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* === CAROUSEL === */
+  .carousel-wrap {
+    position: relative;
+    margin-bottom: 80px;
+    padding: 0 80px 0 120px;
+  }
+  .carousel-controls {
+    position: absolute;
+    top: -60px; right: 80px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .carousel-counter {
+    font-family: var(--graphy); font-size: 13px; color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .carousel-counter strong { color: var(--ink); font-weight: 700; }
+  .carousel-arrow {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--soft);
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: var(--ink);
+    border: none;
+    transition: all 0.15s ease;
+  }
+  .carousel-arrow:hover { background: var(--ink); color: var(--paper); }
+  .carousel-arrow svg { width: 14px; height: 14px; }
+
+  .carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+    margin-right: -80px;
+  }
+  .carousel::-webkit-scrollbar { height: 4px; }
+  .carousel::-webkit-scrollbar-track { background: var(--soft); border-radius: 2px; }
+  .carousel::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+
+  .carousel-card {
+    flex: 0 0 360px;
+    scroll-snap-align: start;
+    background: var(--paper);
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 12px rgba(50,30,80,0.04);
+    min-height: 440px;
+  }
+  .carousel-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(50,30,80,0.1);
+  }
+  .carousel-card.lime { background: var(--lime); color: var(--ink); }
+  .carousel-card.dark { background: var(--ink); color: var(--paper); }
+  .carousel-card.orange { background: var(--orange); color: var(--paper); }
+
+  .carousel-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .carousel-image .img-bg {
+    width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+  }
+  .carousel-body {
+    padding: 24px 28px 28px;
+    display: flex; flex-direction: column;
+    gap: 16px; flex: 1;
+  }
+  .carousel-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--soft);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: var(--graphy); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    width: fit-content;
+  }
+  .carousel-card.dark .carousel-tag { background: rgba(255,255,255,0.1); color: var(--paper); }
+  .carousel-card.lime .carousel-tag { background: rgba(0,0,0,0.1); color: var(--ink); }
+  .carousel-card.orange .carousel-tag { background: rgba(255,255,255,0.2); color: var(--paper); }
+  .carousel-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .carousel-card.dark .carousel-tag .dot { background: var(--lime); }
+  .carousel-card.lime .carousel-tag .dot { background: var(--ink); }
+  .carousel-card.orange .carousel-tag .dot { background: var(--paper); }
+
+  .carousel-headline {
+    font-family: var(--graphy); font-size: 26px; font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.025em;
+  }
+  .carousel-summary {
+    font-size: 14px; line-height: 1.5;
+    color: var(--ink-3);
+    margin-top: auto;
+  }
+  .carousel-card.dark .carousel-summary { color: rgba(255,255,255,0.7); }
+  .carousel-card.lime .carousel-summary { color: rgba(0,0,0,0.65); }
+  .carousel-card.orange .carousel-summary { color: rgba(255,255,255,0.85); }
+  .carousel-meta {
+    display: flex; align-items: center; gap: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-family: var(--graphy); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .carousel-card.dark .carousel-meta { border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+  .carousel-card.lime .carousel-meta { border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.6); }
+  .carousel-card.orange .carousel-meta { border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.75); }
+  .carousel-meta .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: 0.5; }
+  .carousel-meta .arrow {
+    margin-left: auto;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    display: grid; place-items: center;
+  }
+  .carousel-card.dark .carousel-meta .arrow { background: var(--lime); color: var(--ink); }
+  .carousel-card.lime .carousel-meta .arrow { background: var(--ink); color: var(--paper); }
+  .carousel-card.orange .carousel-meta .arrow { background: var(--paper); color: var(--ink); }
+  .carousel-meta .arrow svg { width: 12px; height: 12px; }
+
+  /* === CONTENT SPLIT === */
+  .content-split {
+    padding: 0 80px 0 120px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+  }
+  .news-col { display: flex; flex-direction: column; gap: 24px; }
+  .ops-col { display: flex; flex-direction: column; gap: 20px; }
+
+  /* === FEED FILTERS === */
+  .feed-section-wrap {
+    background: var(--soft);
+    border-radius: 28px;
+    padding: 24px;
+    box-shadow:
+      inset 0 0 0 1px rgba(0,0,0,0.025),
+      0 1px 2px rgba(50,30,80,0.03);
+  }
+  .feed-filters {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+  }
+  .filter-chip {
+    font-family: var(--graphy); font-size: 13px; font-weight: 500;
+    color: var(--ink-3);
+    padding: 10px 18px;
+    background: var(--paper);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 1px 2px rgba(50,30,80,0.04);
+  }
+  .filter-chip:hover { background: #fafafa; }
+  .filter-chip.active {
+    background: var(--ink); color: var(--paper); font-weight: 600;
+  }
+  .filter-chip .count {
+    font-family: var(--graphy); font-size: 11px;
+    background: var(--soft);
+    color: var(--ink-3);
+    padding: 1px 7px; border-radius: 100px;
+    font-weight: 500;
+  }
+  .filter-chip.active .count { background: rgba(255,255,255,0.15); color: var(--paper); }
+
+  /* === FEED ITEMS (social style) === */
+  .feed-list { display: flex; flex-direction: column; gap: 14px; }
+  .feed-item {
+    background: var(--paper);
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow:
+      0 1px 2px rgba(50,30,80,0.04),
+      0 4px 16px rgba(50,30,80,0.06);
+    border: 1px solid rgba(0,0,0,0.03);
+  }
+  .feed-item:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 2px rgba(50,30,80,0.04),
+      0 8px 24px rgba(50,30,80,0.1);
+  }
+  .feed-item-header {
+    padding: 18px 22px 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .feed-author-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid; place-items: center;
+    font-family: var(--graphy); font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .feed-author-avatar.sf { background: #c41e30; }
+  .feed-author-avatar.al { background: #0033a0; }
+  .feed-author-avatar.hq { background: var(--accent); }
+  .feed-author-avatar.spu { background: var(--moss); }
+  .feed-author-avatar.us { background: #003366; }
+  .feed-author-avatar.mkt { background: #8a4aaf; }
+
+  .feed-author-info { flex: 1; min-width: 0; }
+  .feed-author-name {
+    font-family: var(--graphy); font-size: 14px; font-weight: 700;
+    color: var(--ink); letter-spacing: -0.005em;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .feed-author-name .verified { color: var(--accent); font-size: 11px; }
+  .feed-author-meta {
+    font-family: var(--graphy); font-size: 11px;
+    color: var(--muted); margin-top: 2px;
+    display: flex; align-items: center; gap: 6px;
+    font-weight: 500;
+  }
+  .feed-author-meta .meta-dot { width: 2px; height: 2px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+
+  .feed-item-pill {
+    margin-left: auto;
+    background: var(--soft);
+    padding: 5px 12px; border-radius: 100px;
+    font-family: var(--graphy); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .feed-item-pill.new { background: var(--accent); color: var(--paper); }
+
+  .feed-item-body { padding: 0 22px 18px; }
+  .feed-item-title {
+    font-family: var(--graphy); font-size: 18px; font-weight: 700;
+    line-height: 1.3; letter-spacing: -0.02em; color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .feed-item-summary { font-size: 13px; line-height: 1.5; color: var(--ink-3); }
+
+  .feed-item-image {
+    width: 100%; height: 220px; overflow: hidden;
+  }
+  .feed-item-image .img-bg {
+    width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+  }
+  .feed-item-footer {
+    padding: 14px 22px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 20px;
+  }
+  .feed-action {
+    display: flex; align-items: center; gap: 6px;
+    font-family: var(--graphy); font-size: 12px; font-weight: 500;
+    color: var(--ink-3);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+  .feed-action:hover { color: var(--ink); }
+  .feed-action svg { width: 15px; height: 15px; }
+  .feed-action.liked { color: var(--accent); }
+  .feed-item-time {
+    margin-left: auto;
+    font-family: var(--graphy); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* === RIGHT SIDEBAR WIDGETS === */
+  .widget {
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(50,30,80,0.04);
+  }
+  .widget.dark { background: var(--ink); color: var(--paper); }
+  .widget.accent { background: var(--lime); color: var(--ink); }
+  .widget.orange { background: var(--orange); color: var(--paper); }
+
+  .widget-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .widget.dark .widget-header, .widget.orange .widget-header { border-color: rgba(255,255,255,0.12); }
+  .widget.accent .widget-header { border-color: rgba(0,0,0,0.12); }
+
+  .widget-title {
+    font-family: var(--graphy); font-size: 17px; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .widget-meta {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .widget.dark .widget-meta, .widget.orange .widget-meta { color: rgba(255,255,255,0.55); }
+  .widget.accent .widget-meta { color: rgba(0,0,0,0.55); }
+
+  /* EVENTS */
+  .events-list { display: flex; flex-direction: column; }
+  .event-item {
+    padding: 14px 0; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 16px;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: padding 0.2s ease;
+  }
+  .event-item:first-child { padding-top: 0; }
+  .event-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .event-item:hover { padding-left: 4px; }
+  .event-date {
+    background: var(--soft);
+    border-radius: 12px;
+    padding: 10px 14px;
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 56px;
+  }
+  .event-day {
+    font-family: var(--graphy); font-size: 22px; font-weight: 700;
+    color: var(--ink); letter-spacing: -0.02em; line-height: 1;
+  }
+  .event-month {
+    font-family: var(--graphy); font-size: 10px; font-weight: 600;
+    color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .event-info { flex: 1; min-width: 0; }
+  .event-name {
+    font-family: var(--graphy); font-size: 14px; font-weight: 600;
+    line-height: 1.3; color: var(--ink); margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .event-meta {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* SOURCE AD */
+  .source-ad { display: block; text-decoration: none; cursor: pointer; transition: transform 0.2s ease; }
+  .source-ad:hover { transform: translateY(-2px); }
+  .source-eyebrow {
+    font-family: var(--graphy); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.75); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .source-eyebrow::before { content: ''; width: 20px; height: 1px; background: rgba(255,255,255,0.6); }
+  .source-headline {
+    font-family: var(--graphy); font-size: 26px; font-weight: 700;
+    line-height: 1.1; letter-spacing: -0.02em; color: var(--paper);
+    margin-bottom: 10px;
+  }
+  .source-detail {
+    font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85);
+    margin-bottom: 18px;
+  }
+  .source-cta {
+    display: flex; align-items: center; gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    font-family: var(--graphy); font-size: 13px; font-weight: 600;
+    color: var(--paper);
+  }
+  .source-arrow {
+    margin-left: auto;
+    width: 32px; height: 32px;
+    background: var(--paper); color: var(--accent);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 700;
+  }
+
+  /* HOT TOPICS */
+  .hot-list { display: flex; flex-direction: column; }
+  .hot-item {
+    padding: 12px 0; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: padding 0.2s ease;
+  }
+  .hot-item:first-child { padding-top: 0; }
+  .hot-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .hot-item:hover { padding-left: 4px; }
+  .hot-rank {
+    font-family: var(--graphy); font-size: 18px; font-weight: 700;
+    color: var(--accent); letter-spacing: -0.02em;
+    width: 28px;
+  }
+  .hot-info { flex: 1; min-width: 0; }
+  .hot-name {
+    font-family: var(--graphy); font-size: 14px; font-weight: 600;
+    line-height: 1.3; color: var(--ink); margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+  .hot-meta {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.04em; color: var(--muted); text-transform: uppercase;
+  }
+  .hot-trend {
+    font-family: var(--graphy); font-size: 16px; color: var(--moss); font-weight: 700;
+  }
+
+  /* NATIONAL ACCOUNT */
+  .na-list { display: flex; flex-direction: column; }
+  .na-item {
+    padding: 12px 0; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: padding 0.2s ease;
+  }
+  .na-item:first-child { padding-top: 0; }
+  .na-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .na-item:hover { padding-left: 4px; }
+  .na-tag {
+    font-family: var(--graphy); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--ink); color: var(--paper);
+    padding: 6px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    min-width: 92px;
+    text-align: center;
+  }
+  .na-info { flex: 1; min-width: 0; }
+  .na-headline {
+    font-family: var(--graphy); font-size: 13px; font-weight: 600;
+    line-height: 1.3; color: var(--ink); margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .na-meta {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase;
+  }
+  .na-new {
+    font-family: var(--graphy); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* USEFUL TOOLS */
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tool-btn {
+    background: var(--soft);
+    border-radius: 16px;
+    padding: 18px;
+    display: flex; flex-direction: column; gap: 6px;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: transform 0.2s ease;
+  }
+  .tool-btn:hover { transform: translateY(-2px); }
+  .tool-icon {
+    width: 32px; height: 32px;
+    background: var(--paper);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    color: var(--ink); margin-bottom: 6px;
+  }
+  .tool-icon svg { width: 14px; height: 14px; }
+  .tool-name-text {
+    font-family: var(--graphy); font-size: 14px; font-weight: 700;
+    line-height: 1.2; letter-spacing: -0.015em; color: var(--ink);
+  }
+  .tool-sub {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.06em; color: var(--muted); text-transform: uppercase;
+  }
+
+  /* LOOKUP */
+  .lookup-row {
+    padding: 22px 24px;
+    display: flex; align-items: center; gap: 16px;
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .lookup-row:hover { transform: translateY(-2px); }
+  .lookup-search {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.1);
+    display: grid; place-items: center;
+    color: var(--ink);
+  }
+  .lookup-search svg { width: 16px; height: 16px; }
+  .lookup-text { flex: 1; }
+  .lookup-name {
+    font-family: var(--graphy); font-size: 17px; font-weight: 700;
+    letter-spacing: -0.02em; color: var(--ink);
+  }
+  .lookup-sub {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: rgba(0,0,0,0.6); margin-top: 3px;
+  }
+  .lookup-arrow-letter {
+    font-family: var(--graphy); font-size: 18px; color: var(--ink); font-weight: 700;
+  }
+
+  /* QUICK ROW (forum + service desk) */
+  .quick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .quick-card {
+    padding: 22px;
+    cursor: pointer; text-decoration: none; color: inherit;
+    transition: transform 0.2s ease;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .quick-card:hover { transform: translateY(-2px); }
+  .ql-eyebrow {
+    font-family: var(--graphy); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.65; margin-bottom: 6px;
+  }
+  .ql-name {
+    font-family: var(--graphy); font-size: 17px; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .ql-sub {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .quick-light {
+    background: var(--paper); color: var(--ink);
+    box-shadow: 0 2px 12px rgba(50,30,80,0.04);
+  }
+  .quick-light .ql-eyebrow { color: var(--accent); opacity: 1; }
+  .quick-light .ql-sub { color: var(--muted); opacity: 1; }
+
+  /* CUSTOMIZE */
+  .customize-link {
+    padding: 16px 20px;
+    border: 1px dashed rgba(0,0,0,0.15);
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer; text-decoration: none; color: inherit;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.2s ease;
+  }
+  .customize-link:hover { border-color: var(--ink); }
+  .customize-link strong {
+    font-family: var(--graphy); font-size: 13px; font-weight: 600; color: var(--ink);
+  }
+  .customize-link span {
+    font-family: var(--graphy); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  .footer-row {
+    padding: 64px 80px 0 120px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--graphy); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="canvas">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <div class="product-pill">
+        <span class="mark">SN</span>
+        <span>SERVPRO<strong style="color: var(--accent);">NET</strong></span>
+        <span class="caret">▾</span>
+      </div>
+    </div>
+
+    <div class="top-bar-center">
+      <a href="#" class="top-link">News & Updates</a>
+      <a href="#" class="top-link">Work Resources</a>
+      <a href="#" class="top-link">National Accounts</a>
+      <a href="#" class="top-link">People, Culture & Support</a>
+      <a href="#" class="top-link">Learning & Training</a>
+    </div>
+
+    <div class="top-bar-right">
+      <div class="top-action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      </div>
+      <div class="top-action">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
+        <span class="dot-ind"></span>
+      </div>
+      <div class="upgrade-btn">
+        <span class="star">✦</span>
+        <span>Trey</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING LEFT TOOLBAR -->
+  <aside class="float-toolbar">
+    <div class="float-icon dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div class="float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+    <div class="float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+    <div class="float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="6" width="3" height="12"/></svg></div>
+    <div class="float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h12a4 4 0 014 4v12H8a4 4 0 01-4-4V4z"/><path d="M4 16h16"/></svg></div>
+    <div class="float-icon-divider"></div>
+    <div class="float-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l10-4 10 4-10 4-10-4z"/><path d="M6 9v5c0 2 3 3 6 3s6-1 6-3V9"/></svg></div>
+  </aside>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Friday, May 8 · 2026</div>
+      <h1 class="hero-greeting">Hi Trey, <span class="light">ready to</span><br><span class="accent">tackle today?</span></h1>
+      <div class="hero-meta">
+        <span>3 new since Monday</span>
+        <span class="dot"></span>
+        <span>6 items need attention</span>
+      </div>
+    </div>
+    <div class="assistant-card">
+      <div class="assistant-bubble">Hey there! 👋 Need a boost?</div>
+      <div class="assistant-avatar">🤖</div>
+      <div class="assistant-text">
+        Ask SERVPRO AI
+        <small>v2.6 · Beta</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-block">
+    <div class="search-pill">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" placeholder="What do you need? Try: 'State Farm requirements for water mitigation'">
+      <div class="search-shortcuts">
+        <span class="search-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/></svg>
+          Ask AI
+        </span>
+        <span class="search-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
+          Bulletins
+        </span>
+        <span class="search-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8 8 0 0113 0"/></svg>
+          People
+        </span>
+      </div>
+      <div class="search-mic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4"/></svg>
+      </div>
+      <div class="search-go">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAROUSEL SECTION -->
+  <div class="section-header">
+    <div class="section-header-left">
+      <span class="section-num">§ 01</span>
+      <h2 class="section-title">Today's <em>essentials.</em></h2>
+    </div>
+    <span class="section-meta">Curated · Must read</span>
+  </div>
+
+  <div class="carousel-wrap">
+    <div class="carousel-controls">
+      <span class="carousel-counter"><strong>1</strong> / 6</span>
+      <button class="carousel-arrow" id="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="carousel-arrow" id="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="carousel" id="carousel">
+
+      <a href="#" class="carousel-card dark">
+        <div class="carousel-image">
+          <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop')"></div>
+        </div>
+        <div class="carousel-body">
+          <span class="carousel-tag"><span class="dot"></span>National Accounts</span>
+          <h3 class="carousel-headline">State Farm audit format change requires immediate action.</h3>
+          <p class="carousel-summary">Subject line format revised for residential water mitigation. Files under previous format auto-rejected after May 12.</p>
+          <div class="carousel-meta">
+            <span>Today, 6:42 AM</span>
+            <span class="meta-dot"></span>
+            <span>All franchises</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="carousel-card lime">
+        <div class="carousel-image">
+          <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1527482797697-8795b05a13fe?w=600&h=400&fit=crop')"></div>
+        </div>
+        <div class="carousel-body">
+          <span class="carousel-tag"><span class="dot"></span>Storm Operations</span>
+          <h3 class="carousel-headline">Severe weather deployment activated — Gulf Coast.</h3>
+          <p class="carousel-summary">Region 4 mobilization protocols now active. 14 franchises responding across 4 counties.</p>
+          <div class="carousel-meta">
+            <span>2 hrs ago</span>
+            <span class="meta-dot"></span>
+            <span>Action required</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="carousel-card">
+        <div class="carousel-image">
+          <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop')"></div>
+        </div>
+        <div class="carousel-body">
+          <span class="carousel-tag"><span class="dot"></span>Compliance</span>
+          <h3 class="carousel-headline">APA recertification window now open.</h3>
+          <p class="carousel-summary">22 days remain to complete eligibility paperwork for the 2026–2027 program year.</p>
+          <div class="carousel-meta">
+            <span>Yesterday</span>
+            <span class="meta-dot"></span>
+            <span>Due May 30</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="carousel-card orange">
+        <div class="carousel-image">
+          <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1551836022-deb4988cc6c0?w=600&h=400&fit=crop')"></div>
+        </div>
+        <div class="carousel-body">
+          <span class="carousel-tag"><span class="dot"></span>Liberty Mutual</span>
+          <h3 class="carousel-headline">Subrogation portal migration. Action required by May 20.</h3>
+          <p class="carousel-summary">All claims after May 20 must be submitted through the new vendor portal.</p>
+          <div class="carousel-meta">
+            <span>3d ago</span>
+            <span class="meta-dot"></span>
+            <span>All carriers</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="carousel-card">
+        <div class="carousel-image">
+          <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop&sat=-50')"></div>
+        </div>
+        <div class="carousel-body">
+          <span class="carousel-tag"><span class="dot"></span>Allstate</span>
+          <h3 class="carousel-headline">Updated rate schedule for emergency mitigation.</h3>
+          <p class="carousel-summary">Line-item adjustments effective for jobs assigned after June 1, 2026.</p>
+          <div class="carousel-meta">
+            <span>4d ago</span>
+            <span class="meta-dot"></span>
+            <span>Effective June 1</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+      <a href="#" class="carousel-card dark">
+        <div class="carousel-image">
+          <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop')"></div>
+        </div>
+        <div class="carousel-body">
+          <span class="carousel-tag"><span class="dot"></span>Events</span>
+          <h3 class="carousel-headline">Owner Summit 2026 — early registration extended.</h3>
+          <p class="carousel-summary">Registration window extended through June 15. New keynote speakers announced.</p>
+          <div class="carousel-meta">
+            <span>5d ago</span>
+            <span class="meta-dot"></span>
+            <span>Optional</span>
+            <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- TWO COLUMN CONTENT -->
+  <div class="section-header">
+    <div class="section-header-left">
+      <span class="section-num">§ 02</span>
+      <h2 class="section-title">The <em>feed.</em></h2>
+    </div>
+    <span class="section-meta">Updates · Resources · Suggestions</span>
+  </div>
+
+  <div class="content-split">
+
+    <div class="news-col">
+      <div class="feed-section-wrap">
+        <div class="feed-filters">
+          <span class="filter-chip active">All <span class="count">24</span></span>
+          <span class="filter-chip">Bulletins <span class="count">8</span></span>
+          <span class="filter-chip">Compliance <span class="count">4</span></span>
+          <span class="filter-chip">Training <span class="count">5</span></span>
+          <span class="filter-chip">Marketing <span class="count">3</span></span>
+          <span class="filter-chip">Suggested <span class="count">4</span></span>
+        </div>
+
+        <div class="feed-list">
+        <a href="#" class="feed-item">
+          <div class="feed-item-header">
+            <div class="feed-author-avatar sf">SF</div>
+            <div class="feed-author-info">
+              <div class="feed-author-name">State Farm <span class="verified">●</span></div>
+              <div class="feed-author-meta">
+                <span>National Accounts</span>
+                <span class="meta-dot"></span>
+                <span>Bulletin</span>
+              </div>
+            </div>
+            <span class="feed-item-pill new">New</span>
+          </div>
+          <div class="feed-item-body">
+            <h4 class="feed-item-title">Photo documentation requirements expanded for water mitigation Cat 3.</h4>
+            <p class="feed-item-summary">Now requires geotagged photos of moisture readings at 24, 48, and 72-hour intervals.</p>
+          </div>
+          <div class="feed-item-image">
+            <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=440&fit=crop')"></div>
+          </div>
+          <div class="feed-item-footer">
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+              <span>24</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>8</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            </div>
+            <span class="feed-item-time">2d ago</span>
+          </div>
+        </a>
+
+        <a href="#" class="feed-item">
+          <div class="feed-item-header">
+            <div class="feed-author-avatar al">AL</div>
+            <div class="feed-author-info">
+              <div class="feed-author-name">Allstate <span class="verified">●</span></div>
+              <div class="feed-author-meta">
+                <span>National Accounts</span>
+                <span class="meta-dot"></span>
+                <span>Bulletin</span>
+              </div>
+            </div>
+            <span class="feed-item-pill new">New</span>
+          </div>
+          <div class="feed-item-body">
+            <h4 class="feed-item-title">Updated rate schedule for emergency mitigation services.</h4>
+            <p class="feed-item-summary">Line-item rate adjustments effective for jobs assigned after June 1, 2026.</p>
+          </div>
+          <div class="feed-item-footer">
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+              <span>17</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>3</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            </div>
+            <span class="feed-item-time">4d ago</span>
+          </div>
+        </a>
+
+        <a href="#" class="feed-item">
+          <div class="feed-item-header">
+            <div class="feed-author-avatar hq">HQ</div>
+            <div class="feed-author-info">
+              <div class="feed-author-name">HQ Compliance <span class="verified">●</span></div>
+              <div class="feed-author-meta">
+                <span>Safety & Compliance</span>
+                <span class="meta-dot"></span>
+                <span>Announcement</span>
+              </div>
+            </div>
+          </div>
+          <div class="feed-item-body">
+            <h4 class="feed-item-title">New OSHA respiratory protection training due Q2.</h4>
+            <p class="feed-item-summary">All field staff must complete the updated module before June 30. Training auto-assigned to crews.</p>
+          </div>
+          <div class="feed-item-image">
+            <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1581093458791-9d09c80a1303?w=800&h=440&fit=crop')"></div>
+          </div>
+          <div class="feed-item-footer">
+            <div class="feed-action liked">
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+              <span>42</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>12</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            </div>
+            <span class="feed-item-time">Yesterday</span>
+          </div>
+        </a>
+
+        <a href="#" class="feed-item">
+          <div class="feed-item-header">
+            <div class="feed-author-avatar spu">SU</div>
+            <div class="feed-author-info">
+              <div class="feed-author-name">ServPro U <span class="verified">●</span></div>
+              <div class="feed-author-meta">
+                <span>Training</span>
+                <span class="meta-dot"></span>
+                <span>New cohort</span>
+              </div>
+            </div>
+          </div>
+          <div class="feed-item-body">
+            <h4 class="feed-item-title">WRT Advanced certification cohort opens June 3.</h4>
+            <p class="feed-item-summary">Enrollment limited to 20 per region. Priority for franchises with active mitigation pipelines.</p>
+          </div>
+          <div class="feed-item-image">
+            <div class="img-bg" style="background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=440&fit=crop')"></div>
+          </div>
+          <div class="feed-item-footer">
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+              <span>31</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>6</span>
+            </div>
+            <div class="feed-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+            </div>
+            <span class="feed-item-time">2d ago</span>
+          </div>
+        </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ops-col">
+
+      <!-- USEFUL TOOLS -->
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-title">Useful tools</span>
+          <span class="widget-meta">For owners</span>
+        </div>
+        <div class="tool-grid">
+          <a href="#" class="tool-btn">
+            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="5"/><rect x="12" y="9" width="3" height="9"/><rect x="17" y="6" width="3" height="12"/></svg></div>
+            <div class="tool-name-text">Tableau</div>
+            <div class="tool-sub">KPMs & reports</div>
+          </a>
+          <a href="#" class="tool-btn">
+            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <div class="tool-name-text">WorkCenter</div>
+            <div class="tool-sub">Job operations</div>
+          </a>
+          <a href="#" class="tool-btn">
+            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <div class="tool-name-text">APA Monitor</div>
+            <div class="tool-sub">Compliance</div>
+          </a>
+          <a href="#" class="tool-btn">
+            <div class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <div class="tool-name-text">Compensation</div>
+            <div class="tool-sub">Pay tools</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- PEOPLE FINDER -->
+      <a href="#" class="widget accent lookup-row">
+        <div class="lookup-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </div>
+        <div class="lookup-text">
+          <div class="lookup-name">People Finder</div>
+          <div class="lookup-sub">By team · role · region</div>
+        </div>
+        <span class="lookup-arrow-letter">→</span>
+      </a>
+
+      <!-- FORUM + SERVICE DESK -->
+      <div class="quick-row">
+        <a href="#" class="widget dark quick-card">
+          <div class="ql-eyebrow">Community</div>
+          <div class="ql-name">Franchise Forum</div>
+          <div class="ql-sub">Peer Q&A</div>
+        </a>
+        <a href="#" class="widget quick-card quick-light">
+          <div class="ql-eyebrow">Support</div>
+          <div class="ql-name">Service Desk</div>
+          <div class="ql-sub">Get help</div>
+        </a>
+      </div>
+
+      <!-- EVENTS -->
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-title">Upcoming events</span>
+          <span class="widget-meta">Calendar →</span>
+        </div>
+        <div class="events-list">
+          <a href="#" class="event-item">
+            <div class="event-date">
+              <div class="event-day">12</div>
+              <div class="event-month">May</div>
+            </div>
+            <div class="event-info">
+              <div class="event-name">Owner Summit 2026 — registration extended</div>
+              <div class="event-meta">National · Online + In-person</div>
+            </div>
+          </a>
+          <a href="#" class="event-item">
+            <div class="event-date">
+              <div class="event-day">18</div>
+              <div class="event-month">May</div>
+            </div>
+            <div class="event-info">
+              <div class="event-name">Q2 Franchise Performance Webinar</div>
+              <div class="event-meta">Virtual · 2:00 PM ET</div>
+            </div>
+          </a>
+          <a href="#" class="event-item">
+            <div class="event-date">
+              <div class="event-day">03</div>
+              <div class="event-month">Jun</div>
+            </div>
+            <div class="event-info">
+              <div class="event-name">WRT Advanced certification opens</div>
+              <div class="event-meta">ServPro U · Limited enrollment</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- SOURCE AD -->
+      <a href="#" class="widget orange source-ad">
+        <div class="source-eyebrow">SERVPRO Source</div>
+        <h3 class="source-headline">Spring refresh — 15% off mitigation kits.</h3>
+        <p class="source-detail">New air movers, dehumidifiers, and meters. Restock before storm season.</p>
+        <div class="source-cta">
+          <span>Shop the store</span>
+          <span class="source-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- HOT TOPICS -->
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-title">Hot topics</span>
+          <span class="widget-meta">Trending</span>
+        </div>
+        <div class="hot-list">
+          <a href="#" class="hot-item">
+            <span class="hot-rank">01</span>
+            <div class="hot-info">
+              <div class="hot-name">Liberty Mutual subrogation</div>
+              <div class="hot-meta">142 searches this week</div>
+            </div>
+            <span class="hot-trend">↑</span>
+          </a>
+          <a href="#" class="hot-item">
+            <span class="hot-rank">02</span>
+            <div class="hot-info">
+              <div class="hot-name">State Farm audit format</div>
+              <div class="hot-meta">118 searches this week</div>
+            </div>
+            <span class="hot-trend">↑</span>
+          </a>
+          <a href="#" class="hot-item">
+            <span class="hot-rank">03</span>
+            <div class="hot-info">
+              <div class="hot-name">APA recertification</div>
+              <div class="hot-meta">96 searches this week</div>
+            </div>
+            <span class="hot-trend">↑</span>
+          </a>
+          <a href="#" class="hot-item">
+            <span class="hot-rank">04</span>
+            <div class="hot-info">
+              <div class="hot-name">Storm deployment</div>
+              <div class="hot-meta">87 searches this week</div>
+            </div>
+            <span class="hot-trend">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- NATIONAL ACCOUNT UPDATES -->
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-title">National account updates</span>
+          <span class="widget-meta">View all →</span>
+        </div>
+        <div class="na-list">
+          <a href="#" class="na-item">
+            <div class="na-tag">State Farm</div>
+            <div class="na-info">
+              <div class="na-headline">Photo docs expanded</div>
+              <div class="na-meta">Effective May 12</div>
+            </div>
+            <span class="na-new">New</span>
+          </a>
+          <a href="#" class="na-item">
+            <div class="na-tag">Allstate</div>
+            <div class="na-info">
+              <div class="na-headline">Rate schedule update</div>
+              <div class="na-meta">Effective June 1</div>
+            </div>
+            <span class="na-new">New</span>
+          </a>
+          <a href="#" class="na-item">
+            <div class="na-tag">USAA</div>
+            <div class="na-info">
+              <div class="na-headline">Mold scope revised</div>
+              <div class="na-meta">Section 4 restructured</div>
+            </div>
+          </a>
+          <a href="#" class="na-item">
+            <div class="na-tag">Liberty</div>
+            <div class="na-info">
+              <div class="na-headline">Portal migration</div>
+              <div class="na-meta">Action by May 20</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <a href="#" class="customize-link">
+        <strong>Customize this page</strong>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-row">
+    <span>SERVPRONET · 2026</span>
+    <span>v5.0 · Owner & Management</span>
+  </div>
+</div>
+
+<script>
+  const carousel = document.getElementById('carousel');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const counter = document.querySelector('.carousel-counter strong');
+  const total = carousel.children.length;
+
+  function updateCounter() {
+    const cardWidth = 360 + 20;
+    const idx = Math.round(carousel.scrollLeft / cardWidth) + 1;
+    counter.textContent = Math.min(idx, total);
+  }
+
+  prev.addEventListener('click', () => {
+    carousel.scrollBy({ left: -380, behavior: 'smooth' });
+  });
+  next.addEventListener('click', () => {
+    carousel.scrollBy({ left: 380, behavior: 'smooth' });
+  });
+  carousel.addEventListener('scroll', updateCounter);
+</script>
+
+</body>
+</html>
